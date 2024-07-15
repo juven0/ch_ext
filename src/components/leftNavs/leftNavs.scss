@@ -1,0 +1,34 @@
+.left-navs{
+    top: 10%;
+    position: relative;
+    width: 100%;
+    height: auto;
+    .nav-item{
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        padding-left: 40px;
+        cursor: pointer;
+
+        img{
+            width: 25px;
+            position: relative;
+        }
+        label{
+            font-family:Kanit,Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+            position: relative;
+            left: 20px;
+            font-weight: 300;
+            transition: .1s linear;
+        }
+        &:hover label{
+            color:  #01575c;
+            font-weight: 400;
+            
+        }
+    }   
+    
+    
+}

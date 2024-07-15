@@ -1,0 +1,16 @@
+.logo{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img{
+        height: 40px;
+    }
+    label{
+        font-size: 17px;
+        font-weight: 400;
+        font-family:Kanit;
+        color: rgb(80, 80, 80);
+    }
+}
