@@ -25,14 +25,22 @@
     .logout{
         width: 60%;
         display: flex;
-        justify-content: center;
         align-items: center;
         position: absolute;
         height: 70px;
         bottom: 3%;
+        cursor: pointer;
+        padding-left: 20px;
         border-top:1px solid #d0d0d0;
         img{
             width: 20px;
+        }
+        label{
+            font-family:Kanit,Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+            position: relative;
+            left: 20px;
+            font-weight: 300;
+            transition: .1s linear;
         }
     }
     

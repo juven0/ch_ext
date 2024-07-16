@@ -1,4 +1,5 @@
 import LeftSide from '../../components/leftSide/leftSide'
+import MainContent from '../mainContent/mainContent'
 import './userHome.scss'
 
 
@@ -7,9 +8,7 @@ const UserHome = ():JSX.Element=>{
 
         <div className="user-home">          
             <LeftSide/>
-            <div className="main">
-            
-            </div>
+            <MainContent/>
         </div>
         
     )
