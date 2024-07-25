@@ -1,0 +1,21 @@
+.user-store-info{
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    .store-info-card{
+        width: 13vw;
+        height: 13vw;
+        display: flex;
+        background-color: rgb(255, 255, 255);
+        margin: 10px;
+        transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+        border-radius: 10px;
+        &:hover{
+            background-color:  #01575c;
+        }
+    }
+}
