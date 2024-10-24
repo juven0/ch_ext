@@ -8,12 +8,22 @@
     height: 100%;
     position: relative;
     background-color: #fff;
-    .header {
+    display: flex;
+    flex-direction: column;
+    .head {
       width: 100%;
       height: 100px;
-      position: absolute;
-      top: 0;
-      background-color: burlywood;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .logo {
+      }
+    }
+    .content {
+      position: relative;
+      width: 100%;
+      height: calc(100% - 100px);
     }
   }
   .rigth-deco {
