@@ -25,9 +25,37 @@ const UserStoreInfo = (): JSX.Element => {
       </div>
       <div className="store-info-card">
         <img src={fileIcon} alt="" />
+        <div className="card-storage">
+          <label htmlFor="">Files</label>
+          <label htmlFor="">0.1Go</label>
+        </div>
+        <div className="storage">
+          <label htmlFor="" className="file-number">
+            3 Files
+          </label>
+          <input type="range" name="" id="" />
+          <div className="capac">
+            <label htmlFor="">100Mo</label>
+            <label htmlFor="">10Go</label>
+          </div>
+        </div>
       </div>
       <div className="store-info-card">
         <img src={MediaIcon} alt="" />
+        <div className="card-storage">
+          <label htmlFor="">Medias</label>
+          <label htmlFor="">0.1Go</label>
+        </div>
+        <div className="storage">
+          <label htmlFor="" className="file-number">
+            3 Files
+          </label>
+          <input type="range" name="" id="" />
+          <div className="capac">
+            <label htmlFor="">100Mo</label>
+            <label htmlFor="">10Go</label>
+          </div>
+        </div>
       </div>
     </div>
   );
