@@ -1,12 +1,40 @@
 .QuickAcces {
   width: 100%;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
   h4 {
     position: absolute;
     left: 10%;
   }
   .liste {
-    width: 100%;
+    width: 90%;
     box-sizing: border-box;
+    padding: 0 20px;
+    top: 50px;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+
+    .item {
+      width: 30%;
+      height: 60px;
+      border-radius: 10px;
+      background-color: rgb(231, 243, 253);
+      display: flex;
+      align-items: center;
+      .icon {
+        height: 100%;
+        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 50%;
+        }
+      }
+    }
   }
 }
