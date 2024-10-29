@@ -3,9 +3,101 @@ import "./login.scss";
 import User from "../../assets/icons/user-circle-svgrepo-com.svg";
 import Key from "../../assets/icons/key-square-svgrepo-com.svg";
 import { useState } from "react";
+import axios from "axios";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser } from "../../redux/slices/userSlice";
 
 const Login = (): JSX.Element => {
   const [formType, setFormType] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userSecret, setUserSecret] = useState("");
+  const [errorMessge, setErrorMessage] = useState("");
+  const [nebulaData, setNebulaData] = useState(null);
+  const dispatch = useAppDispatch();
+
+  const register = async () => {
+    await axios
+      .post("http://localhost:3000/user/create", {
+        username: userName,
+        secretmessage: userSecret,
+      })
+      .then((res: any) => {
+        setNebulaData(res.data.user);
+        dispatch(setUser(res.data.user));
+      })
+      .catch((err) => {
+        setErrorMessage("can't create user, please retry !");
+      });
+  };
+
+  const handleDownload = (data: any) => {
+    const content = JSON.stringify(data, null, 2);
+    const blob = new Blob([content], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Nebula" + "_" + data.username + "_" + data.userId + ".nb";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const cleanPrivateKey = (key: string): string => {
+    return key
+      .replace(/-----BEGIN PRIVATE KEY-----/g, "") // Retirer le début
+      .replace(/-----END PRIVATE KEY-----/g, "") // Retirer la fin
+      .replace(/\n/g, "") // Retirer les sauts de ligne
+      .trim(); // Enlever les espaces en début/fin
+  };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.name.endsWith(".nb")) {
+      setErrorMessage("Veuillez sélectionner un fichier .nb");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = JSON.parse(e.target.result);
+
+        if (
+          !content.userId ||
+          !content.username ||
+          !content.publicKey ||
+          !content.privateKey
+        ) {
+          throw new Error("Format de fichier invalide");
+        }
+        setNebulaData(content);
+        setErrorMessage("");
+      } catch (err: any) {
+        setErrorMessage(
+          "Erreur lors de la lecture du fichier : " + err.message
+        );
+      }
+    };
+    reader.onerror = () => {
+      setErrorMessage("Erreur lors de la lecture du fichier");
+    };
+    reader.readAsText(file);
+
+    await axios
+      .post("http://localhost:3000/user/login", {
+        userid: nebulaData?.userId,
+        privatekey: nebulaData?.privateKey,
+      })
+      .then((res: any) => {
+        dispatch(setUser(res.data.user));
+      })
+      .catch((err) => {
+        setErrorMessage("can't connect user, please retry !");
+      });
+  };
 
   return (
     <div className="Login">
@@ -52,8 +144,18 @@ const Login = (): JSX.Element => {
 
                 <button className="valid">valid my Information</button>
                 <label htmlFor="">or</label>
-                <button className="log_file">Login With Nebula File</button>
+                <input
+                  type="file"
+                  accept=".nb"
+                  onChange={(e) => handleFileUpload(e)}
+                  className="hidden"
+                  id="uploadNB"
+                />
+                <label className="log_file" htmlFor="uploadNB">
+                  Login With Nebula File
+                </label>
               </div>
+              <p>{errorMessge}</p>
             </div>
           ) : (
             <div className="log">
@@ -66,7 +168,13 @@ const Login = (): JSX.Element => {
                   </div>
                   <div className="form-content">
                     <p>Your user name</p>
-                    <input type="text" name="" id="" />
+                    <input
+                      onChange={(e: any) => setUserName(e.target.value)}
+                      type="text"
+                      name=""
+                      id=""
+                      value={userName}
+                    />
                   </div>
                 </div>
 
@@ -76,12 +184,32 @@ const Login = (): JSX.Element => {
                   </div>
                   <div className="form-content">
                     <p>Your Secret Message</p>
-                    <input type="text" name="" id="" />
+                    <input
+                      type="text"
+                      name=""
+                      id=""
+                      onChange={(e) => setUserSecret(e.target.value)}
+                      value={userSecret}
+                    />
                   </div>
                 </div>
 
-                <button className="valid">valid my Information</button>
-                <button className="down_info">Download You Nebula Info</button>
+                <button
+                  className="valid"
+                  onClick={() => {
+                    register();
+                  }}
+                >
+                  valid my Information
+                </button>
+                <button
+                  className="down_info"
+                  onClick={() => {
+                    handleDownload(nebulaData);
+                  }}
+                >
+                  Download You Nebula Info
+                </button>
               </div>
             </div>
           )}

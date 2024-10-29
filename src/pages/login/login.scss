@@ -3,6 +3,9 @@
   height: 100vh;
   background-color: aqua;
   display: flex;
+  .hidden {
+    display: none;
+  }
   .login-content {
     width: 70%;
     height: 100%;
