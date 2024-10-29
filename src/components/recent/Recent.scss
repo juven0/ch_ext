@@ -9,6 +9,11 @@
   h4 {
     position: absolute;
     left: 10%;
+    color: black;
+    font-weight: 400;
+    font-size: 22px;
+    padding: 0;
+    margin: 0;
   }
   .liste {
     width: 100%;
@@ -19,23 +24,5 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    .item {
-      width: 90%;
-      height: 60px;
-      border-radius: 10px;
-      background-color: rgb(255, 255, 255);
-      display: flex;
-      align-items: center;
-      .icon {
-        height: 100%;
-        width: 10%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        img {
-          width: 50%;
-        }
-      }
-    }
   }
 }
