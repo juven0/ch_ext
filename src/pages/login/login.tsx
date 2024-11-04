@@ -6,6 +6,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = (): JSX.Element => {
   const [formType, setFormType] = useState(false);
@@ -14,6 +15,7 @@ const Login = (): JSX.Element => {
   const [errorMessge, setErrorMessage] = useState("");
   const [nebulaData, setNebulaData] = useState(null);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const register = async () => {
     await axios
@@ -61,7 +63,7 @@ const Login = (): JSX.Element => {
     }
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const content = JSON.parse(e.target.result);
 
@@ -73,7 +75,20 @@ const Login = (): JSX.Element => {
         ) {
           throw new Error("Format de fichier invalide");
         }
-        setNebulaData(content);
+
+        await axios
+          .post("http://localhost:3000/user/login", {
+            userid: content?.userId,
+            privatekey: content?.privateKey,
+          })
+          .then((res: any) => {
+            console.log(res.data);
+            dispatch(setUser(res.data.user));
+            navigate("/home");
+          })
+          .catch((err) => {
+            setErrorMessage("can't connect user, please retry !");
+          });
         setErrorMessage("");
       } catch (err: any) {
         setErrorMessage(
@@ -85,18 +100,7 @@ const Login = (): JSX.Element => {
       setErrorMessage("Erreur lors de la lecture du fichier");
     };
     reader.readAsText(file);
-
-    await axios
-      .post("http://localhost:3000/user/login", {
-        userid: nebulaData?.userId,
-        privatekey: nebulaData?.privateKey,
-      })
-      .then((res: any) => {
-        dispatch(setUser(res.data.user));
-      })
-      .catch((err) => {
-        setErrorMessage("can't connect user, please retry !");
-      });
+    console.log(nebulaData);
   };
 
   return (
