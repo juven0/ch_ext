@@ -15,7 +15,7 @@ const MainContent = (): JSX.Element => {
   }, []);
   const fetchData = async () => {
     await axios
-      .get(`http://localhost:3000/user/files/${user.user_id}`)
+      .get(`http://localhost:3000/user/files/${user.userId}`)
       .then((res) => {
         console.log(res.data);
       });
