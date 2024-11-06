@@ -6,7 +6,6 @@ import "./mainContent.scss";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { addFile } from "../../redux/slices/filesSlice";
 
 const MainContent = (): JSX.Element => {
   const user = useAppSelector((state) => state.user);
@@ -29,10 +28,10 @@ const MainContent = (): JSX.Element => {
   return (
     <div className="main">
       <MainHeader />
-      <UserStoreInfo files={files} />
+      <UserStoreInfo />
       <div className="user-data">
         <QuickAcces />
-        <Recent files={files} />
+        <Recent />
       </div>
     </div>
   );
