@@ -6,6 +6,7 @@ import "./mainContent.scss";
 import { useAppSelector } from "../../redux/hooks";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import FileIteme from "../../components/fileItem/FileItem";
 
 const MainContent = (): JSX.Element => {
   const user = useAppSelector((state) => state.user);
@@ -27,10 +28,13 @@ const MainContent = (): JSX.Element => {
   return (
     <div className="main">
       <MainHeader />
-      <UserStoreInfo />
+      {/* <UserStoreInfo />
       <div className="user-data">
         <QuickAcces />
         <Recent />
+      </div> */}
+      <div className="folder">
+        <FileIteme/>
       </div>
     </div>
   );
