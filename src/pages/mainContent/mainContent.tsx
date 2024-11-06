@@ -50,7 +50,7 @@ const MainContent = (): JSX.Element => {
               <FileIteme
                 name={el[1].fileName}
                 size=""
-                date=""
+                date={el[1].uploadTimestamp}
                 blockHash={el[1].blockHash}
               />
             );

@@ -24,11 +24,19 @@
     font-weight: 300;
   }
   .date {
+    position: relative;
+    right: 10%;
     font-weight: 300;
   }
   .moreInfo {
     position: absolute;
     right: 10px;
+    width: 30px;
+    cursor: pointer;
+  }
+  .download{
+    position: absolute;
+    right: 60px;
     width: 30px;
     cursor: pointer;
   }

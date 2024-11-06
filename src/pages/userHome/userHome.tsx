@@ -6,11 +6,13 @@ import './userHome.scss'
 const UserHome = ():JSX.Element=>{
     return(
 
-        <div className="user-home">          
+        <div className="user-home">
+        <div className="super">
+            </div>
             <LeftSide/>
             <MainContent/>
         </div>
-        
+
     )
 }
 

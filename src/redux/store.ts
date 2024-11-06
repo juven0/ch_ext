@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 import userSlice from "./slices/userSlice";
 import fileSlice from "./slices/filesSlice";
 import menuSlice from "./slices/menu";
+import  activeFileSlice  from "./slices/activeFile";
 const persistConfig = {
   key: "root",
   storage,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   user: userSlice,
   files: fileSlice,
   menu: menuSlice,
+  activeFile: activeFileSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
