@@ -7,7 +7,7 @@ interface RecentProps {
   files: [];
 }
 
-const Recent: FC<RecentProps> = ({ files }): JSX.Element => {
+const Recent = (): JSX.Element => {
   const userfiles = useAppSelector((state) => state.files);
 
   return (
@@ -16,7 +16,15 @@ const Recent: FC<RecentProps> = ({ files }): JSX.Element => {
       <div className="liste">
         {userfiles.files !== undefined && userfiles.files !== null
           ? Object.entries(userfiles.files).map((el) => {
-              return <FileIteme />;
+              console.log(el);
+              return (
+                <FileIteme
+                  name={el[1].fileName}
+                  size=""
+                  date=""
+                  blockHash={el[1].blockHash}
+                />
+              );
             })
           : ""}
       </div>

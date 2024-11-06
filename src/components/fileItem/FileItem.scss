@@ -7,9 +7,16 @@
   align-items: center;
   margin-top: 15px;
   position: relative;
-  .name,
+  .name {
+    width: 50%;
+    overflow-x: hidden;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: 300;
+  }
   .owner {
-    width: 30%;
+    width: 20%;
     overflow-x: hidden;
     height: 100%;
     display: flex;

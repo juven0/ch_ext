@@ -1,20 +1,22 @@
-import { createSlice , PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface menuState{
-    menu : string
+interface menuState {
+  menu: string;
 }
 
-const initialState: menuState ={
-    menu: "home"
-}
+const initialState: menuState = {
+  menu: "home",
+};
 
 export const menuSlice = createSlice({
-    name: "manu",
-    initialState,
-    reducers:{
-        setMenu:(state, action: PayloadAction<menuState>)=>{
-            return {action.payload}
-        }
-    }
-})
+  name: "manu",
+  initialState,
+  reducers: {
+    setMenu: (state, action: PayloadAction<string>) => {
+      state.menu = action.payload;
+    },
+  },
+});
 
+export const { setMenu } = menuSlice.actions;
+export default menuSlice.reducer;

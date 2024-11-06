@@ -6,13 +6,14 @@ import LogOut from "../../assets/icons/logout-2-svgrepo-com.svg";
 import "./leftSide.scss";
 import { useState } from "react";
 import axios from "axios";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { addFile } from "../../redux/slices/filesSlice";
 
 const LeftSide = (): JSX.Element => {
   const user = useAppSelector((state) => state.user);
   const [file, setFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
-
+  const dispatch = useAppDispatch();
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -36,13 +37,11 @@ const LeftSide = (): JSX.Element => {
         },
       })
       .then((res) => {
-        // axios
-        // .get(`http://localhost:3000/user/files/${user.userId}`)
-        // .then((res) => {
-        //   dispatch(addFile(res.data));
-        //   setFiles(res.data);
-        //   setIsLoad(false);
-        // });
+        axios
+          .get(`http://localhost:3000/user/files/${user.userId}`)
+          .then((res) => {
+            dispatch(addFile(res.data));
+          });
       });
   };
 

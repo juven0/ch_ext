@@ -15,7 +15,7 @@ import { useAppSelector } from "../../redux/hooks";
 interface UserStoreInfoProps {
   files: [];
 }
-const UserStoreInfo: FC<UserStoreInfoProps> = ({ files }): JSX.Element => {
+const UserStoreInfo = (): JSX.Element => {
   const [imagesCount, setImageCount] = useState(0);
   const [mediaCount, setMediaCount] = useState(0);
   const [fileCount, setFileCount] = useState(0);
