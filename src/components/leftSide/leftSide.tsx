@@ -35,7 +35,15 @@ const LeftSide = (): JSX.Element => {
           setUploadProgress(percentCompleted);
         },
       })
-      .then((res) => {});
+      .then((res) => {
+        // axios
+        // .get(`http://localhost:3000/user/files/${user.userId}`)
+        // .then((res) => {
+        //   dispatch(addFile(res.data));
+        //   setFiles(res.data);
+        //   setIsLoad(false);
+        // });
+      });
   };
 
   return (

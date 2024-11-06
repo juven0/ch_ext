@@ -2,8 +2,49 @@ import "./userStoreInfo.scss";
 import pictureIcon from "../../assets/icons/album-svgrepo-com.svg";
 import fileIcon from "../../assets/icons/file-text-svgrepo-com.svg";
 import MediaIcon from "../../assets/icons/clapperboard-play-svgrepo-com.svg";
+import { FC, useEffect, useState } from "react";
+import {
+  FILE,
+  FileFilter,
+  getExtension,
+  IMAGE,
+  MEDIA,
+} from "../../utiles/filesParser";
+import { useAppSelector } from "../../redux/hooks";
 
-const UserStoreInfo = (): JSX.Element => {
+interface UserStoreInfoProps {
+  files: [];
+}
+const UserStoreInfo: FC<UserStoreInfoProps> = ({ files }): JSX.Element => {
+  const [imagesCount, setImageCount] = useState(0);
+  const [mediaCount, setMediaCount] = useState(0);
+  const [fileCount, setFileCount] = useState(0);
+  const [file, setFile] = useState();
+  const userfiles = useAppSelector((state) => state.files);
+  useEffect(() => {
+    setFile(userfiles.files);
+  }, []);
+
+  useEffect(() => {
+    if (file !== undefined && file !== null) {
+      file.map((el) => {
+        const ext = getExtension(el.fileName);
+        const fileType = FileFilter(ext);
+        console.log(fileType);
+        if (fileType === IMAGE) {
+          setImageCount(imagesCount + 1);
+          console.log(IMAGE);
+        }
+        if (fileType === MEDIA) {
+          setMediaCount(mediaCount + 1);
+        }
+        if (fileType === FILE) {
+          setFileCount(fileCount + 1);
+        }
+      });
+    }
+  }, []);
+
   return (
     <div className="user-store-info">
       <div className="store-info-card">
@@ -14,7 +55,7 @@ const UserStoreInfo = (): JSX.Element => {
         </div>
         <div className="storage">
           <label htmlFor="" className="file-number">
-            3 Files
+            {imagesCount} Files
           </label>
           <input type="range" name="" id="" />
           <div className="capac">
@@ -31,7 +72,7 @@ const UserStoreInfo = (): JSX.Element => {
         </div>
         <div className="storage">
           <label htmlFor="" className="file-number">
-            3 Files
+            {fileCount} Files
           </label>
           <input type="range" name="" id="" />
           <div className="capac">
@@ -48,7 +89,7 @@ const UserStoreInfo = (): JSX.Element => {
         </div>
         <div className="storage">
           <label htmlFor="" className="file-number">
-            3 Files
+            {mediaCount} Files
           </label>
           <input type="range" name="" id="" />
           <div className="capac">
