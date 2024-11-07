@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { FC } from "react";
 import { setActiveFile } from "../../redux/slices/activeFile";
 import { setshareForm } from "../../redux/slices/shareForm";
+import axios from "axios";
 
 interface ItemProps {
   name: string;
@@ -29,7 +30,38 @@ const FileIteme: FC<ItemProps> = ({
       day: "numeric",
     });
   };
-  const downloadFile = async () => {};
+  const handleDownload = async (hash) => {
+    try {
+      // Faire la requête avec axios
+      const response = await axios.post(
+        `http://localhost:3000/api/download/${hash}`,
+        {
+          responseType: "blob",
+          publicKey: "",
+          privateKey: "",
+        }
+      );
+
+      // Créer une URL pour le blob
+      const blobUrl = window.URL.createObjectURL(new Blob([response.data]));
+
+      // Créer un élément <a> temporaire
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.setAttribute("download", hash);
+
+      // Ajouter à la page et déclencher le clic
+      document.body.appendChild(link);
+      link.click();
+
+      // Nettoyer
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Erreur lors du téléchargement:", error);
+      alert("Erreur lors du téléchargement du fichier");
+    }
+  };
   return (
     <div className="item" onClick={() => dispatch(setActiveFile(blockHash))}>
       <div className="icon">
@@ -48,7 +80,10 @@ const FileIteme: FC<ItemProps> = ({
       <img
         className="moreInfo"
         src={shareIcon}
-        onClick={() => dispatch(setshareForm(true))}
+        onClick={() => {
+          dispatch(setActiveFile(blockHash));
+          dispatch(setshareForm(true));
+        }}
         alt=""
       />
     </div>

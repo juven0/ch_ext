@@ -6,6 +6,7 @@ import fileSlice from "./slices/filesSlice";
 import menuSlice from "./slices/menu";
 import activeFileSlice from "./slices/activeFile";
 import shareFormSlice from "./slices/shareForm";
+import sharedFileSlice from "./slices/sharedFiles";
 const persistConfig = {
   key: "root",
   storage,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   menu: menuSlice,
   activeFile: activeFileSlice,
   shareFormSlice: shareFormSlice,
+  sharedFileSlice: sharedFileSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

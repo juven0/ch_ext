@@ -4,12 +4,17 @@ import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { setshareForm } from "../../redux/slices/shareForm";
 import MainContent from "../mainContent/mainContent";
 import "./userHome.scss";
+import { addSaredFile } from "../../redux/slices/sharedFiles";
 
 const UserHome = (): JSX.Element => {
   const shareShow = useAppSelector((state) => state.shareFormSlice.show);
   const activeFileHash = useAppSelector((state) => state.activeFile);
   const [shareId, setShareId] = useState("");
   const dispatch = useAppDispatch();
+  const userfiles = useAppSelector((state) => state.files);
+  const getFileByBlockHash = (blockHash: string): any | undefined => {
+    return userfiles?.files?.find((file) => file.blockHash === blockHash);
+  };
 
   return (
     <div className="user-home">
@@ -28,7 +33,14 @@ const UserHome = (): JSX.Element => {
               placeholder="User Identifient"
               id=""
             />
-            <button>Share</button>
+            <button
+              onClick={() => {
+                const share = getFileByBlockHash(activeFileHash.file);
+                dispatch(addSaredFile(share));
+              }}
+            >
+              Share
+            </button>
           </div>
         </div>
       )}

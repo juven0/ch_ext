@@ -15,6 +15,7 @@ const MainContent = (): JSX.Element => {
   const [isLoad, setIsLoad] = useState(false);
   const menu = useAppSelector((state) => state.menu);
   const userfiles = useAppSelector((state) => state.files);
+  const sharedFiles = useAppSelector((state) => state.sharedFileSlice);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -56,6 +57,18 @@ const MainContent = (): JSX.Element => {
             );
           })
         : null}
+
+      {menu.menu === "Shared" &&
+        sharedFiles.map((el) => {
+          return (
+            <FileIteme
+              name={el.fileName}
+              size=""
+              date={el.uploadTimestamp.toString()}
+              blockHash={el.blockHash}
+            />
+          );
+        })}
     </div>
   );
 };

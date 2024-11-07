@@ -16,7 +16,6 @@ const Recent = (): JSX.Element => {
       <div className="liste">
         {userfiles.files !== undefined && userfiles.files !== null
           ? Object.entries(userfiles.files).map((el) => {
-              console.log(el);
               return (
                 <FileIteme
                   name={el[1].fileName}
