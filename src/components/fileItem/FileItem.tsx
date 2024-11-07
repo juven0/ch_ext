@@ -2,10 +2,11 @@ import "./FileItem.scss";
 
 import fileIcon from "../../assets/file_icons/gdoc-document-svgrepo-com.svg";
 import shareIcon from "../../assets/icons/share-svgrepo-com.svg";
-import downloadIcon from "../../assets/icons/download-minimalistic-svgrepo-com.svg"
+import downloadIcon from "../../assets/icons/download-minimalistic-svgrepo-com.svg";
 import { useAppDispatch } from "../../redux/hooks";
 import { FC } from "react";
 import { setActiveFile } from "../../redux/slices/activeFile";
+import { setshareForm } from "../../redux/slices/shareForm";
 
 interface ItemProps {
   name: string;
@@ -19,19 +20,18 @@ const FileIteme: FC<ItemProps> = ({
   date,
   blockHash,
 }): JSX.Element => {
-    const dispatch = useAppDispatch();
-const dateFormater = (timestamp)=>{
+  const dispatch = useAppDispatch();
+  const dateFormater = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString("fr-FR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
-}
+  };
   const downloadFile = async () => {};
   return (
-    <div className="item" onClick={()=>dispatch(setActiveFile(blockHash))}>
+    <div className="item" onClick={() => dispatch(setActiveFile(blockHash))}>
       <div className="icon">
         <img src={fileIcon} alt="" />
       </div>
@@ -44,8 +44,13 @@ const dateFormater = (timestamp)=>{
       <div className="date">
         <label htmlFor="">{dateFormater(date)}</label>
       </div>
-      <img className="download"  src={downloadIcon} alt="" />
-      <img className="moreInfo" src={shareIcon} alt="" />
+      <img className="download" src={downloadIcon} alt="" />
+      <img
+        className="moreInfo"
+        src={shareIcon}
+        onClick={() => dispatch(setshareForm(true))}
+        alt=""
+      />
     </div>
   );
 };

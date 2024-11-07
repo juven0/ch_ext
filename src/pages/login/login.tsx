@@ -82,8 +82,11 @@ const Login = (): JSX.Element => {
             privatekey: content?.privateKey,
           })
           .then((res: any) => {
-            console.log(res.data);
-            dispatch(setUser(res.data.user));
+            const userData = {
+              ...res.data.user,
+              privateKey: content?.privateKey,
+            };
+            dispatch(setUser(userData));
             navigate("/home");
           })
           .catch((err) => {
