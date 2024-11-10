@@ -132,5 +132,55 @@
         }
 
     }
+    .detail{
+        width: 90%;
+        position: absolute;
+        bottom: 20px;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        background-color:oldlace;
+        box-sizing: border-box;
+        padding: 10px 20px;
+
+        h3{
+            position: absolute;
+            left: 20px;
+            color: black;
+            font-weight: 500;
+            padding: 0  ;
+            margin: 0;
+            font-size: 22px;
+        }
+        .container{
+            position: relative;
+            top: 40px;
+            img{width: 30%;
+            }
+        }
+        .clo{
+            height: 50px;
+            width: 100%;
+            display: flex;
+            .tag{
+                height: 100%;
+                display: block;
+                width: 20%;
+                display: flex;
+                align-items: center;
+                justify-content: start;
+            }
+            .value{
+                height: 100%;
+                display: block;
+                display: flex;
+                width: 70%;
+                font-size: 15px;
+                color: black;
+                align-items: center;
+                justify-content: start;
+            }
+        }
+    }
   }
 }

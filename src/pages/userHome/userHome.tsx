@@ -9,7 +9,7 @@ import userAvatar from "../../assets/avatar-svgrepo-com.svg"
 import axios from "axios";
 
 import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import FileImage from "../../assets/file_icons/html-document-svgrepo-com.svg"
 
 const UserHome = (): JSX.Element => {
   const shareShow = useAppSelector((state) => state.shareFormSlice.show);
@@ -17,9 +17,16 @@ const UserHome = (): JSX.Element => {
   const [shareId, setShareId] = useState("");
   const dispatch = useAppDispatch();
   const userfiles = useAppSelector((state) => state.files);
+  const user = useAppSelector((state) => state.user);
+  const [activeFileData , setActiveFileData] = useState()
   const getFileByBlockHash = (blockHash: string): any | undefined => {
     return userfiles?.files?.find((file) => file.blockHash === blockHash);
   };
+
+  useEffect(()=>{
+    setActiveFileData(getFileByBlockHash(activeFileHash.file))
+}, [activeFileHash])
+
   const [storage, setStorage] = useState(null)
   const data = [
     { name: 'Rouge', value: 300 },
@@ -36,7 +43,22 @@ const UserHome = (): JSX.Element => {
     fetchStorage()
   },[])
 
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Byte';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
 
+  const dateFormater = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString("fr-FR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   const COLORS = ['#FF6384', '#36A2EB', ];
 
@@ -77,8 +99,8 @@ const UserHome = (): JSX.Element => {
                     <img src={userAvatar} alt=""  />
                 </div>
                 <div className="info">
-                        <h3>eddy juve</h3>
-                        <label htmlFor="">f348jr3o24t2</label>
+                        <h3>{user.username}</h3>
+                        <label htmlFor="">{user.userId}</label>
                     </div>
             </div>
             <div className="storage">
@@ -110,6 +132,46 @@ const UserHome = (): JSX.Element => {
                         />
                     </PieChart>
                     <label htmlFor="">{storage}GB</label>
+                </div>
+            </div>
+
+            <div className="detail">
+                <h3>Detail</h3>
+                <div className="container">
+                <img src={FileImage} alt=""  />
+                    <div className="clo">
+                        <label htmlFor="" className="tag">
+                            Name
+                        </label>
+                        <label htmlFor="" className="value">
+                            {activeFileData!== undefined&& activeFileData?.fileName}
+                        </label>
+                    </div>
+                    <div className="clo">
+                        <label htmlFor="" className="tag">
+                            Size
+                        </label>
+                        <label htmlFor="" className="value">
+                        {activeFileData!== undefined&& formatFileSize(activeFileData?.size)}
+                        </label>
+                    </div>
+                    <div className="clo">
+                        <label htmlFor="" className="tag">
+                            Owner
+                        </label>
+                        <label htmlFor="" className="value">
+                            {user.username}
+                        </label>
+                    </div>
+                    <div className="clo">
+                        <label htmlFor="" className="tag">
+                            Date
+                        </label>
+                        <label htmlFor="" className="value">
+                        {activeFileData!== undefined&& dateFormater(activeFileData?.uploadTimestamp)}
+                        </label>
+
+                    </div>
                 </div>
             </div>
 

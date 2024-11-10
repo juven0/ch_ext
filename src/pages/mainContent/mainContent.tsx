@@ -16,6 +16,8 @@ const MainContent = (): JSX.Element => {
   const menu = useAppSelector((state) => state.menu);
   const userfiles = useAppSelector((state) => state.files);
   const sharedFiles = useAppSelector((state) => state.sharedFileSlice);
+  const activeFileHash = useAppSelector((state) => state.activeFile);
+
 
   const dispatch = useAppDispatch();
   useEffect(() => {
