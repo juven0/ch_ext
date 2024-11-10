@@ -9,7 +9,7 @@ const initialState: menuState = {
 };
 
 export const menuSlice = createSlice({
-  name: "manu",
+  name: "menu",
   initialState,
   reducers: {
     setMenu: (state, action: PayloadAction<string>) => {

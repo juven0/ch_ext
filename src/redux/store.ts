@@ -4,7 +4,9 @@ import storage from "redux-persist/lib/storage";
 import userSlice from "./slices/userSlice";
 import fileSlice from "./slices/filesSlice";
 import menuSlice from "./slices/menu";
-import  activeFileSlice  from "./slices/activeFile";
+import activeFileSlice from "./slices/activeFile";
+import shareFormSlice from "./slices/shareForm";
+import sharedFileSlice from "./slices/sharedFiles";
 const persistConfig = {
   key: "root",
   storage,
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   user: userSlice,
   files: fileSlice,
   menu: menuSlice,
-  activeFile: activeFileSlice
+  activeFile: activeFileSlice,
+  shareFormSlice: shareFormSlice,
+  sharedFileSlice: sharedFileSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

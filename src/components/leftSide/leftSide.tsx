@@ -24,6 +24,8 @@ const LeftSide = (): JSX.Element => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("userId", user.userId);
+    formData.append("privatekey", user.privateKey);
+    formData.append("pubkey", user.publicKey);
     await axios
       .post("http://localhost:3000/upload", formData, {
         headers: {
