@@ -8,6 +8,7 @@ const UserHome = ():JSX.Element=>{
 
         <div className="user-home">
         <div className="super">
+            
             </div>
             <LeftSide/>
             <MainContent/>
