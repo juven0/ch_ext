@@ -7,6 +7,10 @@
   align-items: center;
   padding-left: 20px;
   justify-content: space-around;
+  .progress{
+    width: 100%;
+
+  }
   .store-info-card {
     position: relative;
     width: 17vw;
@@ -64,4 +68,5 @@
       }
     }
   }
+
 }
