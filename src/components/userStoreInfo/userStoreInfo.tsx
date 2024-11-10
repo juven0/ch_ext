@@ -111,7 +111,7 @@ const UserStoreInfo = (): JSX.Element => {
     <div className="user-store-info">
         {
             elemets.map((el,i)=>{
-                return <div className="store-info-card">
+                return <div className="store-info-card" key={i}>
                 <img src={imags[i]} alt="" />
                 <div className="card-storage">
                   <label htmlFor="">{el}</label>
@@ -129,9 +129,9 @@ const UserStoreInfo = (): JSX.Element => {
                         {
                           fileCount[elemets[i]]!== undefined?
                             <CustomRangeProgress
-                            value={(fileCount[elemets[i]].totalSize / Math.pow(1024, 3))*100}
+                            value={(fileCount[elemets[i]].totalSize / Math.pow(518, 3))*100}
                             color={'#FF6384'}
-                            /> :<CustomRangeProgress
+                            key={i}/> :<CustomRangeProgress
                             value={0}
                             color={'#FF6384'}
                             />

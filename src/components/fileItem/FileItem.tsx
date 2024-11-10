@@ -30,38 +30,70 @@ const FileIteme: FC<ItemProps> = ({
       day: "numeric",
     });
   };
-  const handleDownload = async (hash) => {
+  const handleDownload = async (hash: string, name:string) => {
     try {
-      // Faire la requête avec axios
+      console.log("Démarrage du téléchargement pour hash:", hash);
+
       const response = await axios.post(
-        `http://localhost:3000/api/download/${hash}`,
+        `http://localhost:3000/get/${hash}`,
+        {
+          publicKey: "",
+          privateKey: ""
+        },
         {
           responseType: "blob",
-          publicKey: "",
-          privateKey: "",
+        //   timeout: 30000, // 30 secondes timeout
+          onDownloadProgress: (progressEvent) => {
+            // Optionnel : ajout d'une barre de progression
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / (progressEvent.total || progressEvent.loaded)
+            );
+            console.log(`Progression: ${percentCompleted}%`);
+          }
         }
       );
 
-      // Créer une URL pour le blob
-      const blobUrl = window.URL.createObjectURL(new Blob([response.data]));
+      if (!response.data || response.data.size === 0) {
+        throw new Error("Fichier vide reçu");
+      }
 
-      // Créer un élément <a> temporaire
+      // Création du blob et téléchargement
+      const blob = new Blob([response.data], {
+        type: response.headers["content-type"] || "application/octet-stream"
+      });
+
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.href = blobUrl;
-      link.setAttribute("download", hash);
+      link.href = url;
+      link.download = name; // ou utilisez le nom depuis Content-Disposition si disponible
 
-      // Ajouter à la page et déclencher le clic
       document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
 
-      // Nettoyer
-      link.parentNode.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
+      console.log("Téléchargement terminé avec succès");
+
     } catch (error) {
-      console.error("Erreur lors du téléchargement:", error);
-      alert("Erreur lors du téléchargement du fichier");
+      console.error("Erreur de téléchargement:", error);
+      let message = "Erreur lors du téléchargement";
+
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          message = error.response.data.message || message;
+        } else if (error.request) {
+          message = "Impossible de contacter le serveur";
+        }
+        if (error.code === "ECONNABORTED") {
+          message = "Le téléchargement a pris trop de temps";
+        }
+      }
+
+      // Afficher l'erreur à l'utilisateur
+      alert(message);
     }
   };
+
   return (
     <div className="item" onClick={() => dispatch(setActiveFile(blockHash))}>
       <div className="icon">
@@ -76,7 +108,7 @@ const FileIteme: FC<ItemProps> = ({
       <div className="date">
         <label htmlFor="">{dateFormater(date)}</label>
       </div>
-      <img className="download" src={downloadIcon} alt="" />
+      <img className="download" src={downloadIcon} onClick={()=>handleDownload(blockHash, name)} alt="" />
       <img
         className="moreInfo"
         src={shareIcon}

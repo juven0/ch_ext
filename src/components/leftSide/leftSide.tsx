@@ -8,6 +8,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addFile } from "../../redux/slices/filesSlice";
+import CustomRangeProgress from "../progress/progress";
 
 const LeftSide = (): JSX.Element => {
   const user = useAppSelector((state) => state.user);
@@ -75,7 +76,7 @@ const LeftSide = (): JSX.Element => {
         <div className="progress-bar-container">
           {/* <div class="progress-bar" style="width: 50%;"></div> */}
         </div>
-        <h3>{uploadProgress}</h3>
+        <CustomRangeProgress value={uploadProgress} color={"#000"}/>
       </div>
 
       <div className="logout">
