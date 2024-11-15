@@ -7,10 +7,14 @@ import menuSlice from "./slices/menu";
 import activeFileSlice from "./slices/activeFile";
 import shareFormSlice from "./slices/shareForm";
 import sharedFileSlice from "./slices/sharedFiles";
+import historySlice  from "./slices/history";
+import storeSlice  from "./slices/storeSize";
+import userStoreSlice  from "./slices/userSize";
+import trashSlice  from "./slices/trashSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"],
+  whitelist: ["user" , "history", "trash"],
   blacklist: ["load", "data"],
 };
 
@@ -21,6 +25,10 @@ const rootReducer = combineReducers({
   activeFile: activeFileSlice,
   shareFormSlice: shareFormSlice,
   sharedFileSlice: sharedFileSlice,
+  history: historySlice,
+  store: storeSlice,
+  userStore: userStoreSlice,
+  trash: trashSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

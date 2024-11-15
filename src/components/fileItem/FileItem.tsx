@@ -7,7 +7,10 @@ import { useAppDispatch } from "../../redux/hooks";
 import { FC } from "react";
 import { setActiveFile } from "../../redux/slices/activeFile";
 import { setshareForm } from "../../redux/slices/shareForm";
+import trash from "../../assets/icons/trash-bin-2-svgrepo-com.svg"
 import axios from "axios";
+import { addHistory } from "../../redux/slices/history";
+import { addTrash } from "../../redux/slices/trashSlice";
 
 interface ItemProps {
   name: string;
@@ -65,7 +68,7 @@ const FileIteme: FC<ItemProps> = ({
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = name; // ou utilisez le nom depuis Content-Disposition si disponible
+      link.download = name;
 
       document.body.appendChild(link);
       link.click();
@@ -95,7 +98,9 @@ const FileIteme: FC<ItemProps> = ({
   };
 
   return (
-    <div className="item" onClick={() => dispatch(setActiveFile(blockHash))}>
+    <div className="item" onClick={() =>{
+        dispatch(addHistory(blockHash))
+        dispatch(setActiveFile(blockHash))}}>
       <div className="icon">
         <img src={fileIcon} alt="" />
       </div>
@@ -103,7 +108,6 @@ const FileIteme: FC<ItemProps> = ({
         <label htmlFor="">{name}</label>
       </div>
       <div className="owner">
-        <label htmlFor="">juveno</label>
       </div>
       <div className="date">
         <label htmlFor="">{dateFormater(date)}</label>
@@ -114,7 +118,16 @@ const FileIteme: FC<ItemProps> = ({
         src={shareIcon}
         onClick={() => {
           dispatch(setActiveFile(blockHash));
+
           dispatch(setshareForm(true));
+        }}
+        alt=""
+      />
+       <img
+        className="delete"
+        src={trash}
+        onClick={() => {
+          dispatch(addTrash(blockHash));
         }}
         alt=""
       />

@@ -222,7 +222,7 @@ const Login = (): JSX.Element => {
           )}
         </div>
       </div>
-      <div className="rigth-deco"></div>
+      {/* <div className="rigth-deco"></div> */}
     </div>
   );
 };

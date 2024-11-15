@@ -5,8 +5,9 @@ import MediaIcon from "../../assets/icons/clapperboard-play-svgrepo-com.svg";
 import { FC, useEffect, useState } from "react";
 import axios from "axios";
 import { Progress } from '@/components/ui/progress';
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import CustomRangeProgress from "../progress/progress";
+import { setUserStore } from "../../redux/slices/userSize";
 
 interface UserStoreInfoProps {
   files: [];
@@ -27,6 +28,7 @@ const UserStoreInfo = (): JSX.Element => {
       };
   const [fileCount, setFileCount] = useState(INITIAL_STATE);
   const [file, setFile] = useState();
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const userfiles = useAppSelector((state) => state.files);
 //   useEffect(() => {
@@ -69,6 +71,7 @@ const UserStoreInfo = (): JSX.Element => {
   };
 
   const fetchData = async () => {
+    let total = 0
     await axios
       .get(`http://localhost:3000/user/files/${user.userId}`)
       .then((res) => {
@@ -85,7 +88,7 @@ const UserStoreInfo = (): JSX.Element => {
                 files: []
             };
             }
-
+            total += file.size
             acc[type].count += 1;
             acc[type].totalSize += file.size;
             acc[type].files.push({
@@ -95,9 +98,8 @@ const UserStoreInfo = (): JSX.Element => {
 
             return acc;
         }, {});
-
+        dispatch(setUserStore(total))
          setFileCount(stats)
-        console.log((fileCount[FILE].totalSize / Math.pow(1024, 3))*100000)
            }
       });
   };
@@ -126,24 +128,15 @@ const UserStoreInfo = (): JSX.Element => {
                         fileCount[elemets[i]]!== undefined?
                         fileCount[elemets[i]].count: 0} {el}
                   </label>
-                        {
-                          fileCount[elemets[i]]!== undefined?
-                            <CustomRangeProgress
-                            value={(fileCount[elemets[i]].totalSize / Math.pow(518, 3))*100}
-                            color={'#FF6384'}
-                            key={i}/> :<CustomRangeProgress
-                            value={0}
-                            color={'#FF6384'}
-                            />
-                        }
+
                   <div className="capac">
-                    <label htmlFor="">
+                    {/* <label htmlFor="">
                         {
                             fileCount[elemets[i]]!== undefined?
                             formatFileSize( fileCount[elemets[i]].totalSize):0
                         }
-                        </label>
-                    <label htmlFor="">10Go</label>
+                        </label> */}
+
                   </div>
                 </div>
               </div>

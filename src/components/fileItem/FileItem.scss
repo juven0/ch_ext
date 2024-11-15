@@ -30,13 +30,19 @@
   }
   .moreInfo {
     position: absolute;
-    right: 10px;
+    right: 50px;
     width: 30px;
     cursor: pointer;
   }
   .download{
     position: absolute;
-    right: 60px;
+    right: 100px;
+    width: 30px;
+    cursor: pointer;
+  }
+  .delete{
+    position: absolute;
+    right: 10px;
     width: 30px;
     cursor: pointer;
   }

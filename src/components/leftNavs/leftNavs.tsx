@@ -24,9 +24,9 @@ const LeftNavs = (): JSX.Element => {
         <img src={folder} alt="" />
         <label htmlFor="">My Folder</label>
       </div>
-      <div className="nav-item" onClick={() => updateMenu("favorit")}>
+      <div className="nav-item" onClick={() => updateMenu("history")}>
         <img src={heart} alt="" />
-        <label htmlFor="">Favorit</label>
+        <label htmlFor="">History</label>
       </div>
       <div className="nav-item" onClick={() => updateMenu("trash")}>
         <img src={trash} alt="" />
@@ -36,10 +36,7 @@ const LeftNavs = (): JSX.Element => {
         <img src={shared} alt="" />
         <label htmlFor="">Shared</label>
       </div>
-      <div className="nav-item">
-        <img src={setting} alt="" />
-        <label htmlFor="">Setting</label>
-      </div>
+
     </div>
   );
 };

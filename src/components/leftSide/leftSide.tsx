@@ -9,12 +9,15 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addFile } from "../../redux/slices/filesSlice";
 import CustomRangeProgress from "../progress/progress";
+import { useNavigate } from "react-router-dom";
+
 
 const LeftSide = (): JSX.Element => {
   const user = useAppSelector((state) => state.user);
   const [file, setFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -76,10 +79,10 @@ const LeftSide = (): JSX.Element => {
         <div className="progress-bar-container">
           {/* <div class="progress-bar" style="width: 50%;"></div> */}
         </div>
-        <CustomRangeProgress value={uploadProgress} color={"#000"}/>
+        {/* <CustomRangeProgress value={uploadProgress} color={"#000"}/> */}
       </div>
 
-      <div className="logout">
+      <div className="logout" onClick={()=>navigate("/login")}>
         <img src={LogOut} alt="" />
         <label htmlFor="">Log Out</label>
       </div>

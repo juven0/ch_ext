@@ -10,37 +10,54 @@ import axios from "axios";
 
 import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 import FileImage from "../../assets/file_icons/html-document-svgrepo-com.svg"
+import { setStore } from "../../redux/slices/storeSize";
 
 const UserHome = (): JSX.Element => {
   const shareShow = useAppSelector((state) => state.shareFormSlice.show);
   const activeFileHash = useAppSelector((state) => state.activeFile);
   const [shareId, setShareId] = useState("");
+  const [graph, setGraphe] = useState<{ name: string; value: number; }[]>([])
   const dispatch = useAppDispatch();
   const userfiles = useAppSelector((state) => state.files);
+  const store = useAppSelector((state)=>state.store)
+  const userStore = useAppSelector((state)=> state.userStore)
   const user = useAppSelector((state) => state.user);
   const [activeFileData , setActiveFileData] = useState()
   const getFileByBlockHash = (blockHash: string): any | undefined => {
     return userfiles?.files?.find((file) => file.blockHash === blockHash);
   };
 
+  const [size, setsize] = useState()
+
   useEffect(()=>{
     setActiveFileData(getFileByBlockHash(activeFileHash.file))
 }, [activeFileHash])
 
   const [storage, setStorage] = useState(null)
-  const data = [
-    { name: 'Rouge', value: 300 },
-    { name: 'Bleu', value: 200 },
-  ];
+  setInterval(() => {
+    setGraphe([
+        { name: 'nebula', value: parseFloat(store.storage.toString()) },
+        { name: 'user', value: parseFloat((userStore.size)/Math.pow(1024, 3)) },
+      ])
+  }, 10000);
+//   const data = [
+//     { name: 'Rouge', value: 100 },
+//     { name: 'Bleu', value: userStore.size },
+//   ];
   const fetchStorage = async ()=>{
     await axios
     .get(`http://localhost:3000/peer/staorage`)
     .then((res) => {
+        dispatch(setStore(res.data))
         setStorage(res.data.storage)
     });
   }
   useEffect(()=>{
     fetchStorage()
+    setGraphe([
+        { name: 'nebula', value: parseFloat(store.storage.toString()) },
+        { name: 'user', value: parseFloat((userStore.size)/Math.pow(1024, 3)) },
+      ])
   },[])
 
   const formatFileSize = (bytes) => {
@@ -60,7 +77,7 @@ const UserHome = (): JSX.Element => {
     });
   };
 
-  const COLORS = ['#FF6384', '#36A2EB', ];
+  const COLORS = ['#034538', '#36A2EB', ];
 
   return (
     <div className="user-home">
@@ -108,7 +125,7 @@ const UserHome = (): JSX.Element => {
                 <div className="chart">
                     <PieChart width={400} height={200}>
                         <Pie
-                        data={data}
+                        data={graph}
                         cx="50%"
                         cy="100%"
                         startAngle={180}
@@ -118,7 +135,7 @@ const UserHome = (): JSX.Element => {
                         paddingAngle={2}
                         dataKey="value"
                         >
-                        {data.map((entry, index) => (
+                        {graph.map((entry, index) => (
                             <Cell
                             key={`cell-${index}`}
                             fill={COLORS[index % COLORS.length]}
@@ -131,8 +148,22 @@ const UserHome = (): JSX.Element => {
                         height={36}
                         />
                     </PieChart>
-                    <label htmlFor="">{storage}GB</label>
+                    <label htmlFor="" >{storage}GB</label>
                 </div>
+                    <div className="nebula">
+                        <div className="ite">
+                            <label htmlFor="" className="tag">
+                                Used Size
+                            </label>
+                            <label htmlFor="" className="content">{formatFileSize(userStore.size)}</label>
+                        </div>
+                        <div className="ite">
+                            <label htmlFor="" className="tag">
+                                Tolal Peer
+                            </label>
+                            <label htmlFor="" className="content">{store.peers}</label>
+                        </div>
+                    </div>
             </div>
 
             <div className="detail">

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { addFile } from "../../redux/slices/filesSlice";
 import FileIteme from "../../components/fileItem/FileItem";
+import CustomItem from "../../components/fileItem/customItem";
 
 const MainContent = (): JSX.Element => {
   const user = useAppSelector((state) => state.user);
@@ -17,6 +18,9 @@ const MainContent = (): JSX.Element => {
   const userfiles = useAppSelector((state) => state.files);
   const sharedFiles = useAppSelector((state) => state.sharedFileSlice);
   const activeFileHash = useAppSelector((state) => state.activeFile);
+  const trash = useAppSelector((state)=> state.trash)
+  const history = useAppSelector((state)=> state.history)
+
 
 
   const dispatch = useAppDispatch();
@@ -49,14 +53,16 @@ const MainContent = (): JSX.Element => {
       userfiles.files !== undefined &&
       userfiles.files !== null
         ? Object.entries(userfiles.files).map((el) => {
-            return (
-              <FileIteme
-                name={el[1].fileName}
-                size=""
-                date={el[1].uploadTimestamp}
-                blockHash={el[1].blockHash}
-              />
-            );
+            if(!trash.includes(el[1].blockHash)){
+                return (
+                    <FileIteme
+                      name={el[1].fileName}
+                      size=""
+                      date={el[1].uploadTimestamp}
+                      blockHash={el[1].blockHash}
+                    />
+                  );
+              }
           })
         : null}
 
@@ -71,6 +77,41 @@ const MainContent = (): JSX.Element => {
             />
           );
         })}
+        {menu.menu === "history" &&
+      userfiles.files !== undefined &&
+      userfiles.files !== null
+        ? Object.entries(userfiles.files).map((el) => {
+            if(history.includes(el[1].blockHash)){
+                return (
+                    <FileIteme
+                      name={el[1].fileName}
+                      size=""
+                      date={el[1].uploadTimestamp}
+                      blockHash={el[1].blockHash}
+                    />
+                  );
+              }
+            })
+
+        : null}
+
+         {menu.menu === "trash" &&
+      userfiles.files !== undefined &&
+      userfiles.files !== null
+        ? Object.entries(userfiles.files).map((el) => {
+            if(trash.includes(el[1].blockHash)){
+                return (
+                    <CustomItem
+                      name={el[1].fileName}
+                      size=""
+                      date={el[1].uploadTimestamp}
+                      blockHash={el[1].blockHash}
+                    />
+                  );
+              }
+            })
+
+        : null}
     </div>
   );
 };
